@@ -7,26 +7,35 @@ import (
 )
 
 func TestTranslate(t *testing.T) {
-	word := "hello"
-	language := "english"
-
-	res := translation.Translate(word, language)
-	if res != "hello" {
-		t.Errorf(`expected "hello" but received "%s"`, res)
+	tt := []struct {
+		Word        string
+		Language    string
+		Translation string
+	}{
+		{
+			Word:        "hello",
+			Language:    "english",
+			Translation: "hello",
+		}, {
+			Word:        "hello",
+			Language:    "german",
+			Translation: "hallo",
+		}, {
+			Word:        "hello",
+			Language:    "finnish",
+			Translation: "hei",
+		}, {
+			Word:        "hello",
+			Language:    "dutch",
+			Translation: "",
+		},
 	}
 
-	res = translation.Translate("hello", "german")
-	if res != "hallo" {
-		t.Errorf(`expected "hei" but received "%s"`, res)
-	}
+	for _, ts := range tt {
 
-	res = translation.Translate("hello", "finnish")
-	if res != "hei" {
-		t.Errorf(`expected "hei" but received "%s"`, res)
-	}
-
-	res = translation.Translate("hello", "dutch")
-	if res != "" {
-		t.Errorf(`expected "hei" but received "%s"`, res)
+		res := translation.Translate(ts.Word, ts.Language)
+		if res != ts.Translation {
+			t.Errorf(`expected "%s" but received "%s" from "%s"`, ts.Translation, res, ts.Language)
+		}
 	}
 }
