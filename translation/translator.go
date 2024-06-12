@@ -1,9 +1,13 @@
 package translation
 
+import "strings"
+
 func Translate(word string, language string) string {
-	switch language {
+	sanitizedWord := sanitizeWord(word)
+	sanitizedLanguage := sanitizeWord(language)
+	switch sanitizedLanguage {
 	case "english":
-		return word
+		return sanitizedWord
 	case "finnish":
 		return "hei"
 	case "german":
@@ -11,5 +15,9 @@ func Translate(word string, language string) string {
 	case "dutch":
 		return ""
 	}
-	return word
+	return sanitizedWord
+}
+
+func sanitizeWord(input string) string {
+	return strings.TrimSpace(strings.ToLower(input))
 }
