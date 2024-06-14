@@ -28,6 +28,18 @@ func TestTranslateAPI(t *testing.T) {
 			ExpectedLanguage:    "german",
 			ExpectedTranslation: "hallo",
 		},
+		{
+			Endpoint:            "/hello?language=notcoveredlanguage",
+			StatusCode:          http.StatusNotFound,
+			ExpectedLanguage:    "",
+			ExpectedTranslation: "",
+		},
+		{
+			Endpoint:            "/hello?language=dutch",
+			StatusCode:          http.StatusNotFound,
+			ExpectedLanguage:    "",
+			ExpectedTranslation: "",
+		},
 	}
 	for _, test := range tt {
 		rr := httptest.NewRecorder()

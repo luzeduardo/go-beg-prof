@@ -15,7 +15,7 @@ func Translate(word string, language string) string {
 	case "dutch":
 		return ""
 	}
-	return sanitizedWord
+	return ""
 }
 
 func sanitizeWord(input string) string {
