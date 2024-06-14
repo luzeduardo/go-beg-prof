@@ -19,7 +19,12 @@ func TranslateHandler(w http.ResponseWriter, r *http.Request) {
 	enc := json.NewEncoder(w)
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	language := defaultLanguage
+
+	language := r.URL.Query().Get("language")
+	if language == "" {
+		language = defaultLanguage
+	}
+
 	word := strings.ReplaceAll(r.URL.Path, "/", "")
 	translation := translation.Translate(word, language)
 
