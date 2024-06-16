@@ -8,5 +8,5 @@ coverage:
 	go test ./... -cover
 
 report:
-	go tool cover -html=coverage.out -o cover.xhtml
+	touch coverage.out && go tool cover -html=coverage.out -o cover.xhtml
 	

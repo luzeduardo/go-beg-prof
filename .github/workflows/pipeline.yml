@@ -19,6 +19,19 @@ jobs:
         run: go get -t ./...
       - name: Test
         run: make test
+      - name: Coverage Check
+        run: make coverage
+      - name: Generate Report
+        run: make report
+      - name: Copy Files
+        run: |
+              mkdir reports
+              cp cover.xhtml reports/.
+      - name: Archive
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: reports
 
   build:
     name: Build App
