@@ -3,3 +3,7 @@ build:
 
 test:
 	go test -v -short ./...
+
+coverage:
+	go test ./... -cover
+	
