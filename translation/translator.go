@@ -2,7 +2,13 @@ package translation
 
 import "strings"
 
-func Translate(word string, language string) string {
+type StaticService struct{}
+
+func NewStaticService() *StaticService {
+	return &StaticService{}
+}
+
+func (st *StaticService) Translate(word string, language string) string {
 	sanitizedWord := sanitizeWord(word)
 	sanitizedLanguage := sanitizeWord(language)
 	switch sanitizedLanguage {

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/luzeduardo/shipping-go/handlers/rest"
+	"github.com/luzeduardo/shipping-go/translation"
 )
 
 type Resp struct {
@@ -16,7 +17,9 @@ func main() {
 	addr := ":8080"
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/hello", rest.TranslateHandler)
+	translateService := translation.NewStaticService()
+	translateHandler := rest.NewTranslatorHandler(translateService)
+	mux.HandleFunc("/translate/hello", translateHandler.TranslateHandler)
 
 	log.Printf("listening on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
