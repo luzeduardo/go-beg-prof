@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/luzeduardo/shipping-go/handlers/rest"
+	"github.com/luzeduardo/shipping-go/translation"
 )
 
 func TestTranslateAPI(t *testing.T) {
@@ -45,7 +46,9 @@ func TestTranslateAPI(t *testing.T) {
 		rr := httptest.NewRecorder()
 		req, _ := http.NewRequest("GET", test.Endpoint, nil)
 
-		handler := http.HandlerFunc(rest.TranslateHandler)
+		underTest := rest.NewTranslatorHandler(translation.NewStaticService())
+		handler := http.HandlerFunc(underTest.TranslateHandler)
+
 		handler.ServeHTTP(rr, req)
 
 		if rr.Code != test.StatusCode {
