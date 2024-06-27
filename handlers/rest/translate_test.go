@@ -13,7 +13,7 @@ type stubbedService struct{}
 
 func (s *stubbedService) Translate(word string, language string) string {
 	if word == "foo" {
-		return "bar"
+		return "baz"
 	}
 	return ""
 }
@@ -52,7 +52,7 @@ func TestTranslateAPI(t *testing.T) {
 			Endpoint:            "/foo?language=english",
 			StatusCode:          http.StatusOK,
 			ExpectedLanguage:    "english",
-			ExpectedTranslation: "bar",
+			ExpectedTranslation: "baz",
 		},
 	}
 	for _, test := range tt {

@@ -4,9 +4,9 @@ import (
 	"strings"
 )
 
-var __rest.Translator = &RemoteSRemoteService{}
+var __restTranslator = &RemoteService{}
 
-//Remote service for external calls
+// Remote service for external calls
 type RemoteService struct {
 	client HelloClient
 }
@@ -16,12 +16,12 @@ type HelloClient interface {
 }
 
 func NewRemoteService(client HelloClient) *RemoteService {
-	return &RemoteService{ client: client }
+	return &RemoteService{client: client}
 }
 
 func (s *RemoteService) Translate(word string, language string) (string, error) {
 	word = strings.ToLower(word)
 	language = strings.ToLower(language)
-	resp, _ := s.client.Translate(word, language)
-	return resp
+	resp, err := s.client.Translate(word, language)
+	return resp, err
 }

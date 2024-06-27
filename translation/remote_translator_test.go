@@ -14,8 +14,8 @@ func TestRemoteServiceTestSuite(t *testing.T) {
 
 type RemoteServiceTestSuite struct {
 	suite.Suite
-	client    *MockHelloClient
-	underTest *translation.RemoteService
+	client           *MockHelloClient
+	underTestService *translation.RemoteService
 }
 
 type MockHelloClient struct {
@@ -24,7 +24,7 @@ type MockHelloClient struct {
 
 func (suite *RemoteServiceTestSuite) SetupTest() {
 	suite.client = new(MockHelloClient)
-	suite.underTest = translation.NewRemoteService(suite.client)
+	suite.underTestService = translation.NewRemoteService(suite.client)
 }
 
 func (m *MockHelloClient) Translate(word string, language string) (string, error) {
@@ -36,7 +36,16 @@ func (suite *RemoteServiceTestSuite) TestTranslate() {
 	//org
 	suite.client.On("Translate", "foo", "bar").Return("baz", nil)
 	//act
-	res, _ := suite.underTest.Translate("foo", "bar")
+	res, _ := suite.underTestService.Translate("foo", "bar")
+
+	suite.Equal(res, "baz")
+	suite.client.AssertExpectations(suite.T())
+}
+
+func (suite *RemoteServiceTestSuite) TestTranslate_CaseSensitive() {
+	suite.client.On("Translate", "foo", "bar").Return("baz", nil)
+
+	res, _ := suite.underTestService.Translate("foo", "bar")
 
 	suite.Equal(res, "baz")
 	suite.client.AssertExpectations(suite.T())
