@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"errors"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -24,7 +25,7 @@ var defaultConfiguration = Configuration{
 	Defaultlanguage: "english",
 }
 
-func (c *Configuration) LoadEnv() {
+func (c *Configuration) LoadFromEnv() {
 	if lang := os.Getenv("DEFAULT_LANGUAGE"); lang != "" {
 		c.Defaultlanguage = lang
 	}
@@ -66,4 +67,24 @@ func (c *Configuration) LoadFromJSON(path string) error {
 		c.Defaultlanguage = defaultConfiguration.Defaultlanguage
 	}
 	return nil
+}
+
+func LoadConfiguration() Configuration {
+	cfgFileFlag := flag.String("config_file", "", "load configurations from a file")
+	portFlag := flag.String("port", "", "set port")
+	flag.Parse()
+	cfg := defaultConfiguration
+
+	if cfgFileFlag != nil && *cfgFileFlag != "" {
+		if err := cfg.LoadFromJSON(*cfgFileFlag); err != nil {
+			log.Printf("unable to load configuration from json: %s, using default values", *cfgFileFlag)
+		}
+	}
+
+	cfg.LoadFromEnv()
+
+	if portFlag != nil && *portFlag != "" {
+		cfg.ParsePort()
+	}
+	return cfg
 }
