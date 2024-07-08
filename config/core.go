@@ -82,7 +82,8 @@ func LoadConfiguration() Configuration {
 	cfg.LoadFromEnv()
 
 	if portFlag != nil && *portFlag != "" {
-		cfg.ParsePort()
+		cfg.Port = *portFlag
 	}
+	cfg.ParsePort()
 	return cfg
 }
