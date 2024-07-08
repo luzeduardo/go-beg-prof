@@ -5,11 +5,9 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
-
-	"github.com/labstack/gommon/log"
 )
 
 type Configuration struct {
@@ -48,7 +46,7 @@ func (c *Configuration) ParsePort() {
 
 func (c *Configuration) LoadFromJSON(path string) error {
 	log.Printf("loading from file %s\n", path)
-	b, err := ioutil.ReadFile(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return errors.New("unable to load configuration")
 	}
