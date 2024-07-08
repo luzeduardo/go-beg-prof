@@ -4,3 +4,4 @@
 *.dylib
 api
 cover.xhtml
+cmd/__debug_bin*
