@@ -10,7 +10,8 @@
           "request": "launch",
           "mode": "auto",
           "cwd": "${workspaceRoot}",
-          "program": "./cmd/api",
+          "program": "./cmd/",
+          "args": ["--config_file","config.json"],
           "env": {},
           "showLog": true
       },
