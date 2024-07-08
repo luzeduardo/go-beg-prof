@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/luzeduardo/shipping-go/config"
 	"github.com/luzeduardo/shipping-go/handlers/rest"
 	"github.com/luzeduardo/shipping-go/translation"
 )
@@ -14,7 +15,9 @@ type Resp struct {
 }
 
 func main() {
-	addr := ":8080"
+	cfg := config.LoadConfiguration()
+	addr := cfg.Port
+
 	mux := http.NewServeMux()
 
 	translateService := translation.NewStaticService()
