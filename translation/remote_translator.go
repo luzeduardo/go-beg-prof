@@ -24,21 +24,21 @@ func NewRemoteService(client HelloClient) *RemoteService {
 	}
 }
 
-func (s *RemoteService) Translate(word string, language string) (string, error) {
+func (s *RemoteService) Translate(word string, language string) string {
 	word = strings.ToLower(word)
 	language = strings.ToLower(language)
 
 	key := fmt.Sprintf("%s:%s", word, language)
 	tr, ok := s.cache[key]
 	if ok {
-		return tr, nil
+		return tr
 	}
 
 	resp, err := s.client.Translate(word, language)
 	if err != nil {
 		log.Println(err)
-		return "", err
+		return ""
 	}
 	s.cache[key] = resp
-	return resp, err
+	return resp
 }

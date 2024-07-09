@@ -36,7 +36,7 @@ func (suite *RemoteServiceTestSuite) TestTranslate() {
 	//org
 	suite.client.On("Translate", "foo", "bar").Return("baz", nil)
 	//act
-	res, _ := suite.underTestService.Translate("foo", "bar")
+	res := suite.underTestService.Translate("foo", "bar")
 
 	suite.Equal(res, "baz")
 	suite.client.AssertExpectations(suite.T())
@@ -45,7 +45,7 @@ func (suite *RemoteServiceTestSuite) TestTranslate() {
 func (suite *RemoteServiceTestSuite) TestTranslate_CaseSensitive() {
 	suite.client.On("Translate", "foo", "bar").Return("baz", nil)
 
-	res, _ := suite.underTestService.Translate("foo", "bar")
+	res := suite.underTestService.Translate("foo", "bar")
 
 	suite.Equal(res, "baz")
 	suite.client.AssertExpectations(suite.T())
