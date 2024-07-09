@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      -v*
 jobs:
   test:
     name: Test App
@@ -78,3 +80,9 @@ jobs:
   #       run: docker push ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:min
   #     - name: Push Docker dev image to GHCR
   #       run: docker push ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:dev
+  
+  # deliver:
+  #   name: Release
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')

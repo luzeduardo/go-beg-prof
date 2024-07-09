@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/luzeduardo/shipping-go/config"
+	"github.com/luzeduardo/shipping-go/handlers"
 	"github.com/luzeduardo/shipping-go/handlers/rest"
 	"github.com/luzeduardo/shipping-go/translation"
 )
@@ -33,6 +34,7 @@ func main() {
 	// translateService := translation.NewStaticService()
 	translateHandler := rest.NewTranslatorHandler(translationService)
 	mux.HandleFunc("/translate/hello", translateHandler.TranslateHandler)
+	mux.HandleFunc("/info", handlers.Info)
 
 	log.Printf("listening on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
