@@ -16,12 +16,22 @@ type Resp struct {
 
 func main() {
 	cfg := config.LoadConfiguration()
+
+	var translationService rest.Translator
+	translationService = translation.NewStaticService()
+
+	if cfg.LegacyEndpoint != "" {
+		log.Printf("creating external translation client: %s", cfg.LegacyEndpoint)
+		client := translation.NewHelloClient(cfg.LegacyEndpoint)
+		translationService = translation.NewRemoteService(client)
+	}
+
 	addr := cfg.Port
 
 	mux := http.NewServeMux()
 
-	translateService := translation.NewStaticService()
-	translateHandler := rest.NewTranslatorHandler(translateService)
+	// translateService := translation.NewStaticService()
+	translateHandler := rest.NewTranslatorHandler(translationService)
 	mux.HandleFunc("/translate/hello", translateHandler.TranslateHandler)
 
 	log.Printf("listening on %s\n", addr)
