@@ -85,6 +85,7 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -114,6 +115,3 @@ jobs:
           asset_path: api
           asset_name: api
           asset_content_type: application/octet-stream
-
-# if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-
