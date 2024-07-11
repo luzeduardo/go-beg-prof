@@ -93,6 +93,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api
+      - name: Changelog
+        uses: scottbrenner/generate-changelog-action@master
+        id: Changelog
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -102,9 +105,9 @@ jobs:
           tag_name: ${{ github.ref  }}
           release_name: Release ${{ github.ref  }}
           body: |
-              Still in experimentation phase
-          draft: true
-          prerelease: true
+              ${{ steps.Changelog.outpus.changelog  }}
+          draft: false
+          prerelease: false
       - name: Upload Release binary
         uses: actions/upload-release-asset@v1
         env:
